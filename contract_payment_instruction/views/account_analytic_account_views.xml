@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 OpenSynergy Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record id="account_analytic_account_form" model="ir.ui.view">
+        <field name="name">account.analytic.account form</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
+        <field name="priority" eval="50"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='pricelist_id']" position="after">
+                    <field name="fix_price_payment_term_id"/>
+                    <field name="fix_price_bank_account_id"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+
+</data>
+</openerp>
