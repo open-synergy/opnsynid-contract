@@ -20,6 +20,12 @@
                         <group name="deliverable" string="Deliverables" colspan="4" col="2">
                             <field name="business_requirement_deliverable_ids" nolabel="1" col="2"/>
                         </group>
+                        <group name="cost_control" string="Cost Control" colspan="4" col="2">
+                            <field name="total_revenue" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                            <field name="resource_task_total" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                            <field name="resource_procurement_total" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                            <field name="gross_profit" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                        </group>
                     </page>
                 </xpath>
             </data>
