@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<record id="create_invoice_from_term_view_form" model="ir.ui.view">
+    <field name="name">Create Invoice From Terms</field>
+    <field name="model">account.create_invoice_from_term</field>
+    <field name="arch" type="xml">
+        <form>
+            <group name="group_1" colspan="4" col="2">
+                <field name="invoice_term_id" invisible="1"/>
+                <field name="contract_partner_id" invisible="1"/>
+                <field name="partner_id" domain="[('id','child_of',contract_partner_id)]"/>
+                <field name="journal_id"/>
+                <field name="date_invoice"/>
+                <field name="due_mode"/>
+                <field name="payment_term_id" attrs="{'invisible':[('due_mode','!=','payment_term')], 'required':[('due_mode','=','payment_term')]}"/>
+                <field name="due_date" attrs="{'invisible':[('due_mode','!=','due_date')], 'required':[('due_mode','=','due_date')]}"/>
+            </group>
+            <footer>
+                <button string="Confirm" name="action_confirm" type="object" class="oe_highlight"/>
+                or
+                <button string="Cancel" class="oe_link" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<record id="create_invoice_from_term_action" model="ir.actions.act_window">
+    <field name="name">Create Invoice From Term</field>
+    <field name="res_model">account.create_invoice_from_term</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="create_invoice_from_term_view_form"/>
+    <field name="target">new</field>
+</record>
+</data>
+</openerp>

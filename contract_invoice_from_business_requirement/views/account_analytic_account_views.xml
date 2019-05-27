@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 OpenSynergy Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record id="account_analytic_account_form" model="ir.ui.view">
+        <field name="name">account.analytic.account form</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
+        <field name="priority" eval="50"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//group[@name='invoice_on_timesheets']" position="before">
+                    <group name="invoice_br" colspan="4" col="2" attrs="{'invisible':[('fix_price_invoices','=',False)]}">
+                        <field name="fix_invoice_br"/>
+                        <field name="fix_invoice_br_mode" attrs="{'invisible':[('fix_invoice_br','=',False)], 'required':[('fix_invoice_br','=',True)]}"/>
+                    </group>
+                    <group name="invoice_term" string="Invoice By Terms" colspan="4" col="2" attrs="{'invisible':[('fix_invoice_br_mode','!=','term')]}">
+                        <field name="invoice_term_ids" nolabel="1">
+                            <tree>
+                                <field name="sequence" widget="handle"/>
+                                <field name="product_id"/>
+                                <field name="name"/>
+                                <field name="percentage"/>
+                                <field name="term_amount"/>
+                                <field name="invoice_line_id" invisible="1"/>
+                                <button name="%(create_invoice_from_term_action)d" string="Create Invoice" type="action" attrs="{'invisible':[('invoice_line_id','!=',False)]}" icon="gtk-execute"/>
+                            </tree>
+                            <form>
+                                <group name="group_1" colspan="4" col="2">
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="sequence"/>
+                                    <field name="percentage"/>
+                                    <field name="term_amount"/>
+                                    <field name="invoice_line_id"/>
+                                    <field name="invoice_id"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                    <group name="invoice_deliverable" string="Invoice By Deliverables" colspan="4" col="2" attrs="{'invisible':[('fix_invoice_br_mode','!=','deliverable')]}">
+                        <field name="business_requirement_deliverable_ids" colspan="2" nolabel="1"/>
+                    </group>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+
+</data>
+</openerp>
