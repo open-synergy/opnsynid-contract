@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 OpenSynergy Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record id="business_requirement_view_form" model="ir.ui.view">
+        <field name="name">business.requirement form</field>
+        <field name="model">business.requirement</field>
+        <field name="inherit_id" ref="business_requirement.view_business_requirement_form"/>
+        <field name="priority" eval="50"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='project_id']" position="after">
+                    <field name="analytic_id" invisible="1"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+
+</data>
+</openerp>
