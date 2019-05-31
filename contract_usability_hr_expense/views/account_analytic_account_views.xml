@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 OpenSynergy Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+<record id="account_analytic_account_tree" model="ir.ui.view">
+    <field name="name">account.analytic.account tree</field>
+    <field name="model">account.analytic.account</field>
+    <field name="inherit_id" ref="contract_usability.account_analytic_account_tree"/>
+    <field name="priority" eval="50"/>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='ca_to_invoice']" position="after">
+                <field name="expense_to_invoice" string="Expense To Invoice"/>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="account_analytic_account_search" model="ir.ui.view">
+    <field name="name">account.analytic.account search</field>
+    <field name="model">account.analytic.account</field>
+    <field name="inherit_id" ref="contract_usability.account_analytic_account_search"/>
+    <field name="priority" eval="50"/>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//filter[@name='filter_timesheet_invoice']" position="after">
+                <filter name="filter_expense_invoice" string="Invoice On Expense" domain="[('charge_expenses','=',True)]"/>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+
+</data>
+</openerp>
