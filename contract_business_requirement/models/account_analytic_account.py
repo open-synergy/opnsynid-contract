@@ -12,36 +12,51 @@ class AccountAnalyticAccount(models.Model):
     ]
 
     @api.multi
+    @api.depends(
+        "valid_business_requirement_ids",
+        "valid_business_requirement_ids.state",
+        "valid_business_requirement_ids.total_revenue",
+        "valid_business_requirement_ids.resource_task_total",
+        "valid_business_requirement_ids.resource_procurement_total",
+        "valid_business_requirement_ids.gross_profit",
+    )
     def _compute_business_requirement(self):
-        obj_project = self.env["project.project"]
         for acc in self:
-            br_ids = []
             deliverable_ids = []
             total_revenue = resource_task_total = \
                 resource_procurement_total = gross_profit = 0.0
-            criteria = [
-                ("analytic_account_id", "=", acc.id)
-            ]
-            projects = obj_project.search(criteria)
-            for project in projects:
-                br_ids += project.br_ids.ids
-                for br in project.br_ids:
-                    deliverable_ids += br.deliverable_lines.ids
-                    total_revenue += br.total_revenue
-                    resource_task_total += br.resource_task_total
-                    resource_procurement_total += br.resource_procurement_total
-                    gross_profit += br.gross_profit
-            acc.business_requirement_ids = br_ids
+            for br in acc.valid_business_requirement_ids:
+                deliverable_ids += br.deliverable_lines.ids
+                total_revenue += br.total_revenue
+                resource_task_total += br.resource_task_total
+                resource_procurement_total += br.resource_procurement_total
+                gross_profit += br.gross_profit
             acc.business_requirement_deliverable_ids = deliverable_ids
             acc.total_revenue = total_revenue
             acc.resource_task_total = resource_task_total
             acc.resource_procurement_total = resource_procurement_total
             acc.gross_profit = gross_profit
 
-    business_requirement_ids = fields.Many2many(
+    @api.multi
+    @api.depends(
+        "total_revenue",
+    )
+    def _compute_fix_price_to_invoice(self):
+        for aa in self:
+            aa.fix_price_to_invoice = aa.total_revenue
+
+    business_requirement_ids = fields.One2many(
         string="Business Requirements",
         comodel_name="business.requirement",
-        compute="_compute_business_requirement",
+        inverse_name="analytic_id",
+    )
+    valid_business_requirement_ids = fields.One2many(
+        string="Valid Business Requirements",
+        comodel_name="business.requirement",
+        inverse_name="analytic_id",
+        domain=[
+            ("state", "in", ["stakeholder_approval", "in_progress", "done"]),
+        ]
     )
     business_requirement_deliverable_ids = fields.Many2many(
         string="Deliverables",
@@ -51,20 +66,23 @@ class AccountAnalyticAccount(models.Model):
     total_revenue = fields.Float(
         string="Total Revenue",
         compute="_compute_business_requirement",
-        store=False,
+        store=True,
     )
     resource_task_total = fields.Float(
         string="Total Tasks",
         compute="_compute_business_requirement",
-        store=False,
+        store=True,
     )
     resource_procurement_total = fields.Float(
         string="Total Procurement",
         compute="_compute_business_requirement",
-        store=False,
+        store=True,
     )
     gross_profit = fields.Float(
         string="Estimated Gross Profit",
         compute="_compute_business_requirement",
-        store=False,
+        store=True,
+    )
+    fix_price_to_invoice = fields.Float(
+        compute="_compute_fix_price_to_invoice",
     )

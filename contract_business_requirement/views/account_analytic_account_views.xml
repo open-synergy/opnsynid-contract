@@ -17,6 +17,9 @@
                         <group name="br" string="Business Requirements" colspan="4" col="2">
                             <field name="business_requirement_ids" nolabel="1" col="2"/>
                         </group>
+                        <group name="valid_br" string="Valid Business Requirements" colspan="4" col="2">
+                            <field name="valid_business_requirement_ids" nolabel="1" col="2"/>
+                        </group>
                         <group name="deliverable" string="Deliverables" colspan="4" col="2">
                             <field name="business_requirement_deliverable_ids" nolabel="1" col="2"/>
                         </group>
