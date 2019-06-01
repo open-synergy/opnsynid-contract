@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Contract's Business Requirement Information",
-    "version": "8.0.2.1.0",
+    "version": "8.0.2.1.1",
     "category": "Business Requirements Management",
     "website": "https://opensynergy-indonesia.com",
     "author": "OpenSynergy Indonesia",
