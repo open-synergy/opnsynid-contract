@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 OpenSynergy Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record id="account_analytic_account_form" model="ir.ui.view">
+        <field name="name">account.analytic.account form</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="analytic_contract_hr_expense.account_analytic_account_form_expense_form"/>
+        <field name="priority" eval="70"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='to_invoice']" position="after">
+                    <field name="limit_expense_product" attrs="{'invisible':[('charge_expenses','=',False)]}"/>
+                    <group name="expense_allowed_product" string="Expense Allowed Product" colspan="4" col="2" attrs="{'invisible':['|',('limit_expense_product','=',False),('charge_expenses','=',False)]}">
+                        <field name="expense_allowed_product_ids" nolabel="1">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="fix_price_unit"/>
+                                <field name="price_unit"/>
+                            </tree>
+                            <form>
+                                <group name="group_1" colspan="4" col="2">
+                                    <field name="product_id"/>
+                                    <field name="fix_price_unit"/>
+                                    <field name="price_unit"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+
+</data>
+</openerp>
