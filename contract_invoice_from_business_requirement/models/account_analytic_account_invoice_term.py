@@ -25,6 +25,12 @@ class AccountAnalyticAccountInvoiceTerm(models.Model):
         string="# Contract",
         comodel_name="account.analytic.account",
     )
+    partner_id = fields.Many2one(
+        string="Customer",
+        comodel_name="res.partner",
+        related="analytic_account_id.partner_id.commercial_partner_id",
+        store=True,
+    )
     sequence = fields.Integer(
         string="Sequence",
         required=True,
